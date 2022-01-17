@@ -55,3 +55,6 @@ class Board:
                 self.nWhiteKings += 1
             else:
                 self.nBlackKings += 1
+
+    def getValidMoves(self, piece):     #output: tuple
+        return 

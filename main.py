@@ -2,6 +2,7 @@ import pygame
 from checkers.constants import WIDTH, HEIGHT, SQUARELENGTH
 from checkers.board import Board
 from checkers.pieces import Piece
+from checkers.game import Game
 
 FPS = 60        #frames per second
 
@@ -11,7 +12,8 @@ pygame.display.set_caption("Checkers game")
 # pygame.display.flip()
 
 clock = pygame.time.Clock()
-board = Board()
+# board = Board()
+game = Game(window)
 
 running = True
 
@@ -24,7 +26,7 @@ def getRowColFromMousePosition(mousePostion):
 sellectedPiece = 0
 while running:
     clock.tick(FPS)
-    board.drawBoard(window)
+    game.board.drawBoard(window)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -34,12 +36,15 @@ while running:
             mousePosition = pygame.mouse.get_pos()
             selectedRow, selectedCol = getRowColFromMousePosition(mousePosition)
             if sellectedPiece == 0:
-                sellectedPiece = board.getPiece(selectedRow, selectedCol)
+                sellectedPiece = game.board.getPiece(selectedRow, selectedCol)
+
             else:
                 targetRow = selectedRow
                 targetCol = selectedCol
+                game.getJumpMoves()
+                print(game.jumpMoves)
                 #checkTarget
-                board.move(sellectedPiece, targetRow, targetCol)
+                game.board.move(sellectedPiece, targetRow, targetCol)
                 sellectedPiece = 0
                 
 

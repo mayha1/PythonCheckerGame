@@ -9,7 +9,7 @@ class Board:
         self.nWhitePieces = 12
         self.nBlackPieces = 12
         self.nWhiteKings = 0
-        self.nBlackPieces = 0
+        self.nBlackKings = 0
         self.intitializeBoard()        
         
     def drawSquare(self, window):
@@ -40,4 +40,18 @@ class Board:
                 if piece != 0:
                     piece.drawPiece(window) 
 
-    # def 
+    def getPiece(self, row, col):
+        return self.board[row][col]
+
+    def move(self, piece, row, col):
+        self.board[row][col] = self.board[piece.row][piece.col]
+        self.board[piece.row][piece.col] = 0
+        piece.row = row
+        piece.col = col  
+
+        if row == NROWS - 1 or row == 0:
+            piece.makeKing()
+            if piece.color == WHITE:
+                self.nWhiteKings += 1
+            else:
+                self.nBlackKings += 1

@@ -1,5 +1,5 @@
 import pygame
-from checkers.constants import WIDTH, HEIGHT
+from checkers.constants import WIDTH, HEIGHT, SQUARELENGTH
 from checkers.board import Board
 from checkers.pieces import Piece
 
@@ -14,23 +14,37 @@ clock = pygame.time.Clock()
 board = Board()
 
 running = True
+
+def getRowColFromMousePosition(mousePostion):
+    col = mousePostion[0] // SQUARELENGTH
+    row = mousePostion[1] // SQUARELENGTH
+    return row, col
+
+
+sellectedPiece = 0
 while running:
     clock.tick(FPS)
-    
-    for event in pygame.event.get():
+    board.drawBoard(window)
 
+    for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
-
+        
         if event.type == pygame.MOUSEBUTTONDOWN:
-            pass
+            mousePosition = pygame.mouse.get_pos()
+            selectedRow, selectedCol = getRowColFromMousePosition(mousePosition)
+            if sellectedPiece == 0:
+                sellectedPiece = board.getPiece(selectedRow, selectedCol)
+            else:
+                targetRow = selectedRow
+                targetCol = selectedCol
+                #checkTarget
+                board.move(sellectedPiece, targetRow, targetCol)
+                sellectedPiece = 0
+                
 
-    
-    board.drawBoard(window)
-    
 
-    pygame.display.update()
+        pygame.display.update()
 
 # https://xkcd.com/color/rgb/
 # https://github.com/github/gitignore/blob/main/Python.gitignore
-# numpy homogeneous type

@@ -35,18 +35,18 @@ while running:
         if event.type == pygame.MOUSEBUTTONDOWN:
             mousePosition = pygame.mouse.get_pos()
             selectedRow, selectedCol = getRowColFromMousePosition(mousePosition)
-            if sellectedPiece == 0:
-                sellectedPiece = game.board.getPiece(selectedRow, selectedCol)
+            # if sellectedPiece == 0:
+            #     sellectedPiece = game.board.getPiece(selectedRow, selectedCol)
 
-            else:
-                targetRow = selectedRow
-                targetCol = selectedCol
-                game.getJumpMoves()
-                print(game.jumpMoves)
-                #checkTarget
-                game.board.move(sellectedPiece, targetRow, targetCol)
-                sellectedPiece = 0
-                
+            # else:
+            #     targetRow = selectedRow
+            #     targetCol = selectedCol
+            #     # game.getJumpMoves()
+            #     # print(game.jumpMoves)
+            #     #checkTarget
+            #     game.board.move(sellectedPiece, targetRow, targetCol)
+            #     sellectedPiece = 0
+            game.select(selectedRow, selectedCol)
 
 
         pygame.display.update()

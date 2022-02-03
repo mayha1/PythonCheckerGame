@@ -11,7 +11,7 @@ class Game:
         self.board = Board()
         self.turn = WHITE
         self.selected = None 
-        self.validMoves = []
+        self.validMoves = []    #array of tuple
         self.jumpMoves = []
 
     def changeTurn(self):
@@ -28,27 +28,57 @@ class Game:
 
     # def getValidMoves(self):
 
-    def movePieceIfAble(self, row, col):        #move selected piece to (row,col)
-        piece = self.board.getPiece(row, col)
-        if piece == 0 and (row, col) in self.validMoves:
-            #check valid
-            self.board.move(self.selected, row, col)
-            return True
-        else: 
-            return False
+    # def getMovePermission(self, row, col):        
+    #     piece = self.board.getPiece(row, col)
+    #     if piece != 0 and self.checkTurn(piece) and (row, col) in self.validMoves:
+    #         #check valid
+    #         # self.board.move(self.selected, row, col)
+    #         return True
+    #     else: 
+    #         return False
 
 
     def select(self, row, col):
         if self.selected:
-            self.movePieceIfAble(row, col)
-        piece = self.board.getPiece(row, col)
-        if piece != 0 and piece.color == self.turn:
-            self.selected = piece
+            result = self._move(row, col)
+            if result:
+                self.changeTurn()
+            else:
+                self.selected = None
+                self.select(row, col)
+        else:
+            piece = self.board.getPiece(row, col)
+            if piece != 0 and piece.color == self.turn:
+                self.selected = piece
+                self.getValidMoves(self.selected)
 
+    def getValidMoves(self, piece):     #havent considered Kings
+        rowMove = piece.row + piece.direction
+        colLeftMove = piece.col - 1
+        colRightMove = piece.col + 1
+        if colLeftMove >= 0 and rowMove >= 0 and rowMove <= NROWS-1:
+            leftSquare = self.board.getPiece(rowMove, colLeftMove)
+            if leftSquare == 0:
+                self.validMoves.append((rowMove, colLeftMove))
+        if colRightMove <= NCOLS-1 and rowMove >= 0 and rowMove <= NROWS-1:
+            rightSquare = self.board.getPiece(rowMove, colRightMove)
+            if rightSquare == 0:
+                self.validMoves.append((rowMove, colRightMove))
+
+
+
+    def _move(self, row, col):
+        newSquare = self.board.getPiece(row, col)
+        if self.selected and newSquare == 0 and (row, col) in self.validMoves:
+            self.board.move(self.selected, row, col)
+            return True
+        else:
+            return False
 
     
 
-
+# TODO: movePermission => select1/select again
+#        => select2 => check able to move/ select again => move in main
 
     
 

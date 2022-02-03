@@ -41,7 +41,7 @@ while running:
         pygame.display.update()
 
 # TODO 1: endgame?
-# TODO 2: Kings?
+#  2: Kings?
 # TODO 3: jumps >=2
 # TODO 4: if able to jump => compulsory
 # TODO 5: visualize valid moves

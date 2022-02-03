@@ -9,9 +9,9 @@ class Piece:
         self.color = color
         self.king = False
         if self.color == WHITE:
-            self.direction = 1
+            self.direction = [(1,-1), (1,1)]
         else: # self.color == BLACK                   
-            self.direction = -1
+            self.direction = [(-1,-1), (-1,1)]
 
     def getPosition(self):
         self.xCenter = self.col*SQUARELENGTH + SQUARELENGTH//2
@@ -19,7 +19,7 @@ class Piece:
     
     def makeKing(self):
         self.king = True
-        self.direction = [-1,1]
+        self.direction = [(-1,-1), (-1,1), (1,-1), (1,1)]
 
     def drawPiece(self, window):
             self.getPosition()
@@ -34,6 +34,3 @@ class Piece:
         self.row = row
         self.col = col 
         self.getPosition()
-
-    
-

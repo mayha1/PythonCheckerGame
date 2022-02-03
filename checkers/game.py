@@ -37,19 +37,14 @@ class Game:
                 self.getJumpMoves(self.selected)
 
     def getWalkMoves(self, piece):     #havent considered Kings
-        rowMove = piece.row + piece.direction
-        colLeftMove = piece.col - 1
-        colRightMove = piece.col + 1
-        if rowMove >= 0 and rowMove <= NROWS-1 and colLeftMove >= 0:
-            leftSquare = self.board.getPiece(rowMove, colLeftMove)
-            if leftSquare == 0:
-                self.validMoves.append((rowMove, colLeftMove))
-        if rowMove >= 0 and rowMove <= NROWS-1 and colRightMove <= NCOLS-1:
-            rightSquare = self.board.getPiece(rowMove, colRightMove)
-            if rightSquare == 0:
-                self.validMoves.append((rowMove, colRightMove))
-
-
+        for direction in piece.direction:
+            rowMove = piece.row + direction[0]
+            colMove = piece.col + direction[1]
+            if rowMove >= 0 and rowMove <= NROWS-1 \
+                    and colMove >= 0 and colMove <= NCOLS-1:
+                leftSquare = self.board.getPiece(rowMove, colMove)
+                if leftSquare == 0:
+                    self.validMoves.append((rowMove, colMove))
 
     def _move(self, row, col):
         newSquare = self.board.getPiece(row, col)
@@ -67,54 +62,23 @@ class Game:
         else:
             return False
 
-    
-
-# TODO: movePermission => select1/select again
-#        => select2 => check able to move/ select again => move in main
-
-    
-
     def getJumpMoves(self, piece):
-        rowJump = piece.row + piece.direction*2
-        colLeftJump = piece.col - 2
-        colRightJump = piece.col + 2
-
-        if rowJump >= 0 and rowJump <= NROWS-1 and colLeftJump >=0: 
-            leftPiece = self.board.getPiece(piece.row + piece.direction, piece.col - 1)
-            if leftPiece == 0:
-                pass
-            elif leftPiece.color == self.turn:
-                pass
-            else: 
-                jumpSquare = self.board.getPiece(rowJump, colLeftJump)
-                if jumpSquare == 0:
-                    self.validMoves.append((rowJump, colLeftJump))
-                    self.jumpMoves.append((rowJump, colLeftJump))
-                else:
+        for direction in piece.direction:
+            rowJump = piece.row + direction[0]*2
+            colJump = piece.col + direction[1]*2
+            if rowJump >= 0 and rowJump <= NROWS-1 \
+                    and colJump >=0 and colJump <= NCOLS-1: 
+                leftPiece = self.board.getPiece(piece.row + direction[0], piece.col + direction[1])
+                if leftPiece == 0:
                     pass
-        else:
-            pass
-
-        if rowJump >= 0 and rowJump <= NROWS-1 and colRightJump <= NCOLS-1: 
-            rightPiece = self.board.getPiece(piece.row + piece.direction, piece.col + 1)
-            if rightPiece == 0:
-                pass
-            elif rightPiece.color == self.turn:
-                pass
-            else: 
-                jumpSquare = self.board.getPiece(rowJump, colRightJump)
-                if jumpSquare == 0:
-                    self.validMoves.append((rowJump, colRightJump))
-                    self.jumpMoves.append((rowJump, colRightJump))
-                else:
+                elif leftPiece.color == self.turn:
                     pass
-        else:
-            pass
-
-
-
-    # select --> piece or not ---> if piece --> possible to move ---> possible move  
-    #                                           imposs --> pass
-    # (row, col, black) --> move when * (row-1,col-1) == 0 or (row -1,col+1)
-    #                                 * (row-1,col-1) != 0 and (row-2,col-2)== 0
-    #                                 * (row-1,col+1) != 0 and (row+2,col-2)== 0
+                else: 
+                    jumpSquare = self.board.getPiece(rowJump, colJump)
+                    if jumpSquare == 0:
+                        self.validMoves.append((rowJump, colJump))
+                        self.jumpMoves.append((rowJump, colJump))
+                    else:
+                        pass
+            else:
+                pass

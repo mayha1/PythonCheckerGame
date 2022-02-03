@@ -11,7 +11,7 @@ class Game:
         self.board = Board()
         self.turn = WHITE
         self.selected = None 
-        self.validMoves = []    #array of tuple
+        self.validMoves = []    #array of tuples
         self.jumpMoves = []
 
     def changeTurn(self):
@@ -20,29 +20,12 @@ class Game:
         else: 
             self.turn = WHITE
 
-    def checkTurn(self, piece):
-        if piece.color == self.turn:
-            return True 
-        else:
-            return False
-
-    # def getValidMoves(self):
-
-    # def getMovePermission(self, row, col):        
-    #     piece = self.board.getPiece(row, col)
-    #     if piece != 0 and self.checkTurn(piece) and (row, col) in self.validMoves:
-    #         #check valid
-    #         # self.board.move(self.selected, row, col)
-    #         return True
-    #     else: 
-    #         return False
-
-
     def select(self, row, col):
         if self.selected:
             result = self._move(row, col)
             if result:
                 self.changeTurn()
+                self.validMoves = []
             else:
                 self.selected = None
                 self.select(row, col)
@@ -50,17 +33,18 @@ class Game:
             piece = self.board.getPiece(row, col)
             if piece != 0 and piece.color == self.turn:
                 self.selected = piece
-                self.getValidMoves(self.selected)
+                self.getWalkMoves(self.selected)
+                self.getJumpMoves(self.selected)
 
-    def getValidMoves(self, piece):     #havent considered Kings
+    def getWalkMoves(self, piece):     #havent considered Kings
         rowMove = piece.row + piece.direction
         colLeftMove = piece.col - 1
         colRightMove = piece.col + 1
-        if colLeftMove >= 0 and rowMove >= 0 and rowMove <= NROWS-1:
+        if rowMove >= 0 and rowMove <= NROWS-1 and colLeftMove >= 0:
             leftSquare = self.board.getPiece(rowMove, colLeftMove)
             if leftSquare == 0:
                 self.validMoves.append((rowMove, colLeftMove))
-        if colRightMove <= NCOLS-1 and rowMove >= 0 and rowMove <= NROWS-1:
+        if rowMove >= 0 and rowMove <= NROWS-1 and colRightMove <= NCOLS-1:
             rightSquare = self.board.getPiece(rowMove, colRightMove)
             if rightSquare == 0:
                 self.validMoves.append((rowMove, colRightMove))
@@ -70,7 +54,15 @@ class Game:
     def _move(self, row, col):
         newSquare = self.board.getPiece(row, col)
         if self.selected and newSquare == 0 and (row, col) in self.validMoves:
-            self.board.move(self.selected, row, col)
+            if (row, col) in self.jumpMoves:
+                rowEatenPiece = (self.selected.row + row) // 2 
+                colEatenPiece = (self.selected.col + col) // 2 
+                self.board.board[rowEatenPiece][colEatenPiece] = 0
+                if self.turn == WHITE:
+                    self.board.nBlackPieces -= 1
+                else:
+                    self.board.nWhitePieces -= 1
+            self.board.move(self.selected, row, col)            
             return True
         else:
             return False
@@ -82,71 +74,43 @@ class Game:
 
     
 
-    # def getJumpMoveLeft(self, piece):
-    #     rowDoubleLeftPiece = piece.row + piece.direction*2
-    #     colDoubleLeftPiece = piece.col - 2
-    #     if rowDoubleLeftPiece >= 0 and rowDoubleLeftPiece <= NROWS-1 and colDoubleLeftPiece >=0: 
-    #         leftPiece = self.board.getPiece(piece.row + piece.direction, piece.col - 1)
-    #         if leftPiece == 0: 
-    #             return {}
-    #         else: 
-    #             doubleLeftPiece = self.board.getPiece(rowDoubleLeftPiece, colDoubleLeftPiece)
-    #             if doubleLeftPiece == 0:
-    #                 return [(rowDoubleLeftPiece, colDoubleLeftPiece)]
-    #             else:
-    #                 return {}
-    #     else:
-    #         return {}
+    def getJumpMoves(self, piece):
+        rowJump = piece.row + piece.direction*2
+        colLeftJump = piece.col - 2
+        colRightJump = piece.col + 2
 
-    # def getJumpMoveRight(self, piece):
-    #     rowDoubleRightPiece = piece.row + piece.direction*2
-    #     colDoubleRightPiece = piece.col + 2
-    #     if rowDoubleRightPiece >= 0 and rowDoubleRightPiece <= NROWS-1 and colDoubleRightPiece <= NCOLS-1: 
-    #         RightPiece = self.board.getPiece(piece.row + piece.direction, piece.col + 1)
-    #         if RightPiece == 0: 
-    #             return {}
-    #         else: 
-    #             doubleRightPiece = self.board.getPiece(rowDoubleRightPiece, colDoubleRightPiece)
-    #             if doubleRightPiece == 0:
-    #                 return [(rowDoubleRightPiece, colDoubleRightPiece)]
-    #             else:
-    #                 return {}
-    #     else:
-    #         return {}
+        if rowJump >= 0 and rowJump <= NROWS-1 and colLeftJump >=0: 
+            leftPiece = self.board.getPiece(piece.row + piece.direction, piece.col - 1)
+            if leftPiece == 0:
+                pass
+            elif leftPiece.color == self.turn:
+                pass
+            else: 
+                jumpSquare = self.board.getPiece(rowJump, colLeftJump)
+                if jumpSquare == 0:
+                    self.validMoves.append((rowJump, colLeftJump))
+                    self.jumpMoves.append((rowJump, colLeftJump))
+                else:
+                    pass
+        else:
+            pass
 
-    # def getJumpMoves(self):
-    #     self.jumpMoves = {}
-    #     for row in range(NROWS):
-    #         for col in range(NCOLS):
-    #             piece = self.board.getPiece(row, col)
-    #             if piece != 0:
-    #                 self.jumpMoves = self.jumpMoves.add(self.getJumpMoveLeft(piece), self.getJumpMoveRight(piece))
-         
+        if rowJump >= 0 and rowJump <= NROWS-1 and colRightJump <= NCOLS-1: 
+            rightPiece = self.board.getPiece(piece.row + piece.direction, piece.col + 1)
+            if rightPiece == 0:
+                pass
+            elif rightPiece.color == self.turn:
+                pass
+            else: 
+                jumpSquare = self.board.getPiece(rowJump, colRightJump)
+                if jumpSquare == 0:
+                    self.validMoves.append((rowJump, colRightJump))
+                    self.jumpMoves.append((rowJump, colRightJump))
+                else:
+                    pass
+        else:
+            pass
 
-        
-
-
-
-    # def checkValid(self, piece, row, col):
-    #     if self.board.getPiece(row, col) != 0:
-    #         return False
-    #     else:
-    #         if piece.color != self.turn:
-    #             return False
-    #         else:
-    #             if self.board.getPiece(piece.row + piece.direction, pi )
-
-
-
-    # # def checkTarget(self, row, col)
-    # def checkValid(self, row, col):
-    #     if self.board[row][col] == 0:
-    #         pass
-    #     else: 
-    #         selectedPiece = self.board[row][col]
-    #         if 
-
-    
 
 
     # select --> piece or not ---> if piece --> possible to move ---> possible move  

@@ -19,7 +19,7 @@ class Piece:
     
     def makeKing(self):
         self.king = True
-        self.direction = (-1,1)
+        self.direction = [-1,1]
 
     def drawPiece(self, window):
             self.getPosition()

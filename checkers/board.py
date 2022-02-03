@@ -47,7 +47,7 @@ class Board:
         self.board[row][col] = self.board[piece.row][piece.col]
         self.board[piece.row][piece.col] = 0
         piece.row = row
-        piece.col = col  
+        piece.col = col
 
         if row == NROWS - 1 or row == 0:
             piece.makeKing()

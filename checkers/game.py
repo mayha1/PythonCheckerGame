@@ -11,8 +11,8 @@ class Game:
         self.board = Board()
         self.turn = WHITE
         self.selected = None 
-        self.validMoves = []    #array of tuples
-        self.jumpMoves = []
+        self.validMoves = set([])    #set of tuples
+        self.jumpMoves = set([])
 
     def changeTurn(self):
         if self.turn == WHITE: 
@@ -25,18 +25,20 @@ class Game:
             result = self._move(row, col)
             if result:
                 self.changeTurn()
-                self.validMoves = []
+                self.validMoves = set([])
             else:
                 self.selected = None
                 self.select(row, col)
+                self.validMoves = set([])
         else:
             piece = self.board.getPiece(row, col)
             if piece != 0 and piece.color == self.turn:
                 self.selected = piece
                 self.getWalkMoves(self.selected)
                 self.getJumpMoves(self.selected)
+                self.selected.drawValidMoves(self.window, self.validMoves)
 
-    def getWalkMoves(self, piece):     #havent considered Kings
+    def getWalkMoves(self, piece):     
         for direction in piece.direction:
             rowMove = piece.row + direction[0]
             colMove = piece.col + direction[1]
@@ -44,7 +46,7 @@ class Game:
                     and colMove >= 0 and colMove <= NCOLS-1:
                 leftSquare = self.board.getPiece(rowMove, colMove)
                 if leftSquare == 0:
-                    self.validMoves.append((rowMove, colMove))
+                    self.validMoves.add((rowMove, colMove))
 
     def _move(self, row, col):
         newSquare = self.board.getPiece(row, col)
@@ -76,8 +78,8 @@ class Game:
                 else: 
                     jumpSquare = self.board.getPiece(rowJump, colJump)
                     if jumpSquare == 0:
-                        self.validMoves.append((rowJump, colJump))
-                        self.jumpMoves.append((rowJump, colJump))
+                        self.validMoves.add((rowJump, colJump))
+                        self.jumpMoves.add((rowJump, colJump))
                     else:
                         pass
             else:

@@ -20,7 +20,7 @@ class Board:
                     pygame.draw.rect(window, LIGHTGREEN, (col*SQUARELENGTH, row*SQUARELENGTH, SQUARELENGTH, SQUARELENGTH))
                 else:
                     pass
-    
+
     def intitializeBoard(self):     #TODO: use numpy array 0-->nan
         for row in range(NROWS):
             self.board.append([])

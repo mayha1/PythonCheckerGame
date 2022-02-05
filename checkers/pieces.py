@@ -1,5 +1,5 @@
 import pygame
-from checkers.constants import SQUARELENGTH, NCOLS, NROWS, WHITE, BLACK, YELLOW
+from checkers.constants import MINT, SQUARELENGTH, NCOLS, NROWS, WHITE, BLACK, YELLOW
 
 class Piece:
     def __init__(self, row, col, color):
@@ -22,13 +22,20 @@ class Piece:
         self.direction = [(-1,-1), (-1,1), (1,-1), (1,1)]
 
     def drawPiece(self, window):
-            self.getPosition()
-            pieceRadius = SQUARELENGTH//3
-            if self.king:
-                pygame.draw.circle(window, YELLOW, (self.xCenter, self.yCenter), pieceRadius, pieceRadius//6)
-                pygame.draw.circle(window, self.color, (self.xCenter, self.yCenter), pieceRadius-pieceRadius//6)
-            else:
-                pygame.draw.circle(window, self.color, (self.xCenter, self.yCenter), pieceRadius)
+        self.getPosition()
+        pieceRadius = SQUARELENGTH//3
+        if self.king:
+            pygame.draw.circle(window, YELLOW, (self.xCenter, self.yCenter), pieceRadius, pieceRadius//6)
+            pygame.draw.circle(window, self.color, (self.xCenter, self.yCenter), pieceRadius-pieceRadius//6)
+        else:
+            pygame.draw.circle(window, self.color, (self.xCenter, self.yCenter), pieceRadius)
+
+    def drawValidMoves(self, window, validMoves):
+        validMoveRadius = SQUARELENGTH // 5
+        for move in validMoves:
+            xMove = move[1]*SQUARELENGTH + SQUARELENGTH//2
+            yMove = move[0]*SQUARELENGTH + SQUARELENGTH//2
+            pygame.draw.circle(window, MINT, (xMove, yMove), validMoveRadius)
 
     def move(self, row, col):
         self.row = row

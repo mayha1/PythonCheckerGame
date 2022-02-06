@@ -21,7 +21,7 @@ class Board:
                 else:
                     pass
 
-    def intitializeBoard(self):     #TODO: use numpy array 0-->nan
+    def intitializeBoard(self):
         for row in range(NROWS):
             self.board.append([])
             for col in range(NCOLS):

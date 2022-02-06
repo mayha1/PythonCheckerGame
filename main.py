@@ -42,11 +42,12 @@ while running:
 
 # TODO 1: endgame?
 #  2: Kings?
-# TODO 3: jumps >=2
+#  3: jumps >=2
 # TODO 4: if able to jump => compulsory
-# TODO 5: visualize valid moves
+#  5: visualize valid moves
 # TODO 6: start: choose color, size, first turn
 # TODO 7: replay and ratio 
+# TODO 8: visualize valid piece
 
 # https://xkcd.com/color/rgb/
 # https://github.com/github/gitignore/blob/main/Python.gitignore

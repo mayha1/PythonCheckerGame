@@ -30,7 +30,11 @@ class Board:
                 elif row > 4 and (row+col) % 2 != 0:
                     self.board[row].append(Piece(row, col, BLACK))
                 else:
-                    self.board[row].append(0)  
+                    self.board[row].append(0)
+
+    def drawValidPieces(self, validPieces, window):
+        for piece in validPieces:
+            piece.drawMovability(window)
 
     def drawBoard(self, window):
         self.drawSquare(window) 

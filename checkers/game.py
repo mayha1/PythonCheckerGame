@@ -11,56 +11,85 @@ class Game:
         self.board = Board()
         self.turn = WHITE
         self.selected = None
-        # self.validPieceCoor = set([])
+        self.validPieces = set([])
         self.validMoves = set([])    #set of tuples
-        self.jumpMoves = set([])
         self.jumping = False
+        self.canJump = False
 
     def changeTurn(self):
         if self.turn == WHITE: 
             self.turn = BLACK
         else: 
             self.turn = WHITE
+        self.selected = None
+        self.validMoves = set([])
+        self.jumping = False
+        
+
+
+    # def checkWinner(self):
+        # if self.board.nWhitePieces + self.board.nBlackPieces 
+
+    def getValidPieces(self):
+        jumpPieces = set([])
+        validPieces = set([])
+        for row in range(NROWS):
+            for col in range(NCOLS):
+                piece = self.board.getPiece(row, col)
+                if piece != 0 and piece.color == self.turn:
+                    walkMoves = self.getWalkMoves(piece)
+                    jumpMoves = self.getJumpMoves1step(piece)
+                    validMoves = set.union(walkMoves, jumpMoves)
+                    if jumpMoves != set([]):
+                        jumpPieces.add(piece)
+                    if validMoves != set([]):
+                        validPieces.add(piece)
+        if jumpPieces != set([]):
+            validPieces = jumpPieces
+            self.canJump = True
+        else:
+            self.canJump = False
+        return validPieces
 
     def select(self, row, col):
         if self.selected:
             result = self._move(row, col)
             if result:
                 #if jump => check jump again?
-                if (row, col) in self.jumpMoves:
+                if self.canJump:
                     self.jumping = True
                     piece = self.board.getPiece(row, col)
-                    self.jumpMoves = self.getJumpMoves1step(piece)
-                    self.validMoves = self.jumpMoves
-                    if self.jumpMoves != set([]):
-                        self.validPieceCoor = set([row,col])
+                    self.validMoves = self.getJumpMoves1step(piece)
+                    if self.validMoves != set([]):
+                        self.validPieces = set([piece])
                         self.selected = self.board.getPiece(row, col)
                     else:
-                        self.selected = None
-                        self.jumping = False
                         self.changeTurn()
-                        self.validMoves = set([])
                 else:
-                    self.selected = None
-                    self.jumping = False
                     self.changeTurn()
-                    self.validMoves = set([])
             else:
                 if not self.jumping:
                     self.selected = None
                     self.select(row, col)
                     self.validMoves = set([])
         else:
+            self.validPieces = self.getValidPieces()
+            # self.board.drawValidPieces(self.validPieces, self.window)
             if self.jumping:
                 pass
             else:
                 piece = self.board.getPiece(row, col)
-                if piece != 0 and piece.color == self.turn:
+                if piece != 0 and piece.color == self.turn and piece in self.validPieces:
                     self.selected = piece
-                    self.validMoves = set.union(self.getWalkMoves(self.selected),\
-                         self.getJumpMoves1step(self.selected))
-                    self.jumpMoves = self.getJumpMoves1step(self.selected)
+                    self.getValidMoves(self.selected)
                     self.selected.drawValidMoves(self.window, self.validMoves)
+                
+    def getValidMoves(self, piece):
+        if self.canJump:
+            self.validMoves = self.getJumpMoves1step(piece)
+        else:
+            self.validMoves = set.union(self.getWalkMoves(self.selected),\
+                         self.getJumpMoves1step(self.selected))
 
     def getWalkMoves(self, piece):
         walkMoves = set([])
@@ -77,7 +106,7 @@ class Game:
     def _move(self, row, col):
         newSquare = self.board.getPiece(row, col)
         if self.selected and newSquare == 0 and (row, col) in self.validMoves:
-            if (row, col) in self.jumpMoves:
+            if self.canJump:
                 rowEatenPiece = (self.selected.row + row) // 2 
                 colEatenPiece = (self.selected.col + col) // 2 
                 self.board.board[rowEatenPiece][colEatenPiece] = 0

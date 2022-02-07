@@ -43,7 +43,7 @@ while running:
 # TODO 1: endgame?
 #  2: Kings?
 #  3: jumps >=2
-# TODO 4: if able to jump => compulsory
+#  4: if able to jump => compulsory
 #  5: visualize valid moves
 # TODO 6: start: choose color, size, first turn
 # TODO 7: replay and ratio 

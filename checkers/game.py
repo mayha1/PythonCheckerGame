@@ -78,8 +78,7 @@ class Game:
             else:
                 if not self.jumping:
                     self.selected = None
-                    # self.checkWinner()
-                    # print('mmm')
+                    self.checkWinner()                 
                     self.select(row, col)
                     
         else:
@@ -93,7 +92,6 @@ class Game:
                     self.getValidMoves(self.selected)
         
         self.checkWinner()
-        print(self.winner)
                 
     def getValidMoves(self, piece):
         if self.canJump:

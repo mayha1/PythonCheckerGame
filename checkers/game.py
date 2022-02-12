@@ -83,7 +83,6 @@ class Game:
                 if piece != 0 and piece.color == self.turn and piece in self.validPieces:
                     self.selected = piece
                     self.getValidMoves(self.selected)
-        
         self.checkWinner()
                 
     def getValidMoves(self, piece):

@@ -1,6 +1,5 @@
-from ast import excepthandler
 import pygame
-from checkers.constants import MINT, SQUARELENGTH, NCOLS, NROWS, WHITE, BLACK, YELLOW
+from checkers.constants import SQUARELENGTH, WHITE, BLACK, YELLOW, SUGGESTMOVECOLOR
 
 class Piece:
     def __init__(self, row, col, color):
@@ -35,7 +34,7 @@ class Piece:
         self.getPosition()
         pieceRadius = SQUARELENGTH//3
         if self.king:
-            pygame.draw.circle(window, MINT, (self.xCenter, self.yCenter), pieceRadius, pieceRadius//6)
+            pygame.draw.circle(window, SUGGESTMOVECOLOR, (self.xCenter, self.yCenter), pieceRadius, pieceRadius//6)
 
 
     def drawValidMoves(self, window, validMoves):
@@ -43,7 +42,7 @@ class Piece:
         for move in validMoves:
             xMove = move[1]*SQUARELENGTH + SQUARELENGTH//2
             yMove = move[0]*SQUARELENGTH + SQUARELENGTH//2
-            pygame.draw.circle(window, MINT, (xMove, yMove), validMoveRadius)
+            pygame.draw.circle(window, SUGGESTMOVECOLOR, (xMove, yMove), validMoveRadius)
 
     def move(self, row, col):
         self.row = row

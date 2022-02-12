@@ -1,7 +1,5 @@
 import pygame 
-from checkers.constants import WHITE, BLACK, LIGHTGREEN, DARKGREEN, NROWS, NCOLS, SQUARELENGTH
-# from main import BOARDLIGHTCOLOR, BOARDDARKCOLOR
-
+from checkers.constants import WHITE, BLACK, NROWS, NCOLS, SQUARELENGTH
 from checkers.pieces import Piece
 
 class Board:
@@ -11,9 +9,13 @@ class Board:
         self.nBlackPieces = 0
         self.nWhiteKings = 0
         self.nBlackKings = 0
-        self.intitializeBoard()    
+        self.intitializeBoard()
         self.boardlightcolor = "darkolivegreen2"
         self.boarddarkcolor = "darkolivegreen4"
+
+    def changeBoardColor(self, BOARDDARKCOLOR, BOARDLIGHTCOLOR):
+        self.boardlightcolor = BOARDLIGHTCOLOR
+        self.boarddarkcolor = BOARDDARKCOLOR
         
     def drawSquare(self, window):
         window.fill(self.boarddarkcolor)

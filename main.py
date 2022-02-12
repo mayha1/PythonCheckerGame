@@ -1,7 +1,7 @@
 import pygame
 import sys
 from button import Button
-from checkers.constants import WIDTH, HEIGHT, SQUARELENGTH
+from checkers.constants import WHITE,BLACK,  WIDTH, HEIGHT, SQUARELENGTH
 from checkers.board import Board
 from checkers.pieces import Piece
 from checkers.game import Game
@@ -77,21 +77,21 @@ def options():
         window.fill("black")
 
         OPTIONSTEXT = get_font(20).render("This is the OPTIONS screen.", True, "white")
-        OPTIONS_RECT = OPTIONSTEXT.get_rect(center=(WIDTH//2, 260))
-        window.blit(OPTIONSTEXT, OPTIONS_RECT)
+        OPTIONSRECT = OPTIONSTEXT.get_rect(center=(WIDTH//2, 260))
+        window.blit(OPTIONSTEXT, OPTIONSRECT)
 
-        OPTIONS_BACK = Button(image=None, pos=(WIDTH//2, 460), 
+        BACKBUTTON = Button(image=None, pos=(WIDTH//2, 460), 
                             textInput="BACK", font=get_font(30), baseColor="white", hoveringColor="darkorange2")
 
-        OPTIONS_BACK.changeColor(OPTIONSMOUSEPOS)
-        OPTIONS_BACK.update(window)
+        BACKBUTTON.changeColor(OPTIONSMOUSEPOS)
+        BACKBUTTON.update(window)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if OPTIONS_BACK.checkForInput(OPTIONSMOUSEPOS):
+                if BACKBUTTON.checkForInput(OPTIONSMOUSEPOS):
                     mainMenu()
 
         pygame.display.update()
@@ -103,15 +103,26 @@ def showWinner(game):
             window.fill("black")
 
             TEXT1 = get_font(20).render(f'Congratulation!', True, "white")
-            TEXT2 = get_font(20).render(f'The winner is {game.winner}', True, "white")
+            if game.winner == WHITE:
+                winner = "white"
+            elif game.winner == BLACK:
+                winner = "black"
+            else:
+                winner = "nobody"
+            TEXT2 = get_font(20).render(f'The winner is {winner}.', True, "white")
             RECT1 = TEXT1.get_rect(center=(WIDTH//2, 250))
             RECT2 = TEXT2.get_rect(center=(WIDTH//2, 400))
             window.blit(TEXT1, RECT1)
             window.blit(TEXT2, RECT2)
 
-            BACKBUTTON = Button(image=None, pos=(WIDTH//2, 550), 
+            PLAYAGAINBUTTON = Button(image=None, pos=(WIDTH//2, 550), 
+                                textInput="PLAY AGAIN", font=get_font(30), baseColor="white", hoveringColor="darkorange2")
+
+            BACKBUTTON = Button(image=None, pos=(WIDTH//2, 700), 
                                 textInput="BACK", font=get_font(30), baseColor="white", hoveringColor="darkorange2")
 
+            PLAYAGAINBUTTON.changeColor(OPTIONSMOUSEPOS)
+            PLAYAGAINBUTTON.update(window)
             BACKBUTTON.changeColor(OPTIONSMOUSEPOS)
             BACKBUTTON.update(window)
 
@@ -120,8 +131,12 @@ def showWinner(game):
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.MOUSEBUTTONDOWN:
+                    if PLAYAGAINBUTTON.checkForInput(OPTIONSMOUSEPOS):
+                        startGame()
+                if event.type == pygame.MOUSEBUTTONDOWN:
                     if BACKBUTTON.checkForInput(OPTIONSMOUSEPOS):
                         mainMenu()
+                
 
             pygame.display.update()
 

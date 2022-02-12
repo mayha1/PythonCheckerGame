@@ -1,5 +1,6 @@
 import pygame 
 from checkers.constants import WHITE, BLACK, LIGHTGREEN, DARKGREEN, NROWS, NCOLS, SQUARELENGTH
+# from main import BOARDLIGHTCOLOR, BOARDDARKCOLOR
 
 from checkers.pieces import Piece
 
@@ -10,14 +11,16 @@ class Board:
         self.nBlackPieces = 2
         self.nWhiteKings = 0
         self.nBlackKings = 0
-        self.intitializeBoard()        
+        self.intitializeBoard()    
+        self.boardlightcolor = "darkolivegreen2"
+        self.boarddarkcolor = "darkolivegreen4"
         
     def drawSquare(self, window):
-        window.fill(DARKGREEN)
+        window.fill(self.boarddarkcolor)
         for row in range(NROWS):
             for col in range(NCOLS):
                 if (row+col) % 2 == 0:
-                    pygame.draw.rect(window, LIGHTGREEN, (col*SQUARELENGTH, row*SQUARELENGTH, SQUARELENGTH, SQUARELENGTH))
+                    pygame.draw.rect(window, self.boardlightcolor, (col*SQUARELENGTH, row*SQUARELENGTH, SQUARELENGTH, SQUARELENGTH))
                 else:
                     pass
 
@@ -25,9 +28,9 @@ class Board:
         for row in range(NROWS):
             self.board.append([])
             for col in range(NCOLS):
-                if row < 1 and (row+col) % 2 != 0:
+                if row < 3 and (row+col) % 2 != 0:
                     self.board[row].append(Piece(row, col, WHITE))
-                elif row >= NROWS-1  and (row+col) % 2 != 0:
+                elif row >= NROWS-3  and (row+col) % 2 != 0:
                     self.board[row].append(Piece(row, col, BLACK))
                 else:
                     self.board[row].append(0)

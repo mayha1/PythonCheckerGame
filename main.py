@@ -13,11 +13,10 @@ FPS = 60        #frames per second
 window = pygame.display.set_mode(size=(WIDTH, HEIGHT))
 pygame.display.set_caption("Checkers game")
 
-BOARDCOLOR1 = ""
 
-def getRowColFromMousePosition(mousePostion):
-    col = mousePostion[0] // SQUARELENGTH
-    row = mousePostion[1] // SQUARELENGTH
+def getRowColFromMousePosition(mousePos):
+    col = mousePos[0] // SQUARELENGTH
+    row = mousePos[1] // SQUARELENGTH
     return row, col
 
 def startGame():

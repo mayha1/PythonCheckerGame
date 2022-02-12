@@ -1,8 +1,8 @@
 import pygame
 
 WIDTH, HEIGHT = 800, 800
-NROWS = NCOLS = 8
-SQUARELENGTH = 100
+NROWS = NCOLS = 4
+SQUARELENGTH = WIDTH//NCOLS
 
 #TODO: use matplotlib color
 RED = (225,0,0)

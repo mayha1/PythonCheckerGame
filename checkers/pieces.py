@@ -1,3 +1,4 @@
+from ast import excepthandler
 import pygame
 from checkers.constants import MINT, SQUARELENGTH, NCOLS, NROWS, WHITE, BLACK, YELLOW
 

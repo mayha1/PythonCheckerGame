@@ -1,6 +1,7 @@
 # from ast import While
 # from tabnanny import check
 import pygame
+from pyparsing import White
 from checkers.constants import BLACK, NCOLS, NROWS, WHITE, SQUARELENGTH
 from checkers.board import Board
 from checkers.pieces import Piece
@@ -15,6 +16,7 @@ class Game:
         self.validMoves = set([])    #set of tuples
         self.jumping = False
         self.canJump = False
+        self.winner = None
 
     def changeTurn(self):
         if self.turn == WHITE: 
@@ -27,8 +29,13 @@ class Game:
         
 
 
-    # def checkWinner(self):
-        # if self.board.nWhitePieces + self.board.nBlackPieces 
+    def checkWinner(self):
+        if self.validPieces == set() and not self.jumping:
+            if self.turn == WHITE:
+                self.winner = BLACK
+            if self.turn == BLACK:
+                self.winner = WHITE
+
 
     def getValidPieces(self):
         jumpPieces = set([])
@@ -52,6 +59,7 @@ class Game:
         return validPieces
 
     def select(self, row, col):
+        # self.checkWinner()
         if self.selected:
             result = self._move(row, col)
             if result:
@@ -70,11 +78,12 @@ class Game:
             else:
                 if not self.jumping:
                     self.selected = None
+                    # self.checkWinner()
+                    # print('mmm')
                     self.select(row, col)
-                    self.validMoves = set([])
+                    
         else:
             self.validPieces = self.getValidPieces()
-            # self.board.drawValidPieces(self.validPieces, self.window)
             if self.jumping:
                 pass
             else:
@@ -82,7 +91,9 @@ class Game:
                 if piece != 0 and piece.color == self.turn and piece in self.validPieces:
                     self.selected = piece
                     self.getValidMoves(self.selected)
-                    self.selected.drawValidMoves(self.window, self.validMoves)
+        
+        self.checkWinner()
+        print(self.winner)
                 
     def getValidMoves(self, piece):
         if self.canJump:

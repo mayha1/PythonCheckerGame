@@ -6,8 +6,8 @@ from checkers.pieces import Piece
 class Board:
     def __init__(self):
         self.board = []
-        self.nWhitePieces = 12
-        self.nBlackPieces = 12
+        self.nWhitePieces = 2
+        self.nBlackPieces = 2
         self.nWhiteKings = 0
         self.nBlackKings = 0
         self.intitializeBoard()        
@@ -25,24 +25,26 @@ class Board:
         for row in range(NROWS):
             self.board.append([])
             for col in range(NCOLS):
-                if row < 3 and (row+col) % 2 != 0:
+                if row < 1 and (row+col) % 2 != 0:
                     self.board[row].append(Piece(row, col, WHITE))
-                elif row > 4 and (row+col) % 2 != 0:
+                elif row >= NROWS-1  and (row+col) % 2 != 0:
                     self.board[row].append(Piece(row, col, BLACK))
                 else:
                     self.board[row].append(0)
 
-    def drawValidPieces(self, validPieces, window):
-        for piece in validPieces:
-            piece.drawMovability(window)
+    # def drawValidPieces(self, validPieces, window):
+        # for piece in validPieces:
+            # piece.drawMovability(window)
 
-    def drawBoard(self, window):
+    def drawBoard(self, window, selected, validPieces):
         self.drawSquare(window) 
         for row in range(NROWS):
             for col in range(NCOLS):
                 piece = self.board[row][col]
                 if piece != 0:
-                    piece.drawPiece(window) 
+                    piece.drawPiece(window)
+        if selected != None:
+            selected.drawValidMoves(window, validPieces) 
 
     def getPiece(self, row, col):
         return self.board[row][col]

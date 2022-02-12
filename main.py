@@ -1,46 +1,123 @@
 import pygame
+import sys
+from button import Button
 from checkers.constants import WIDTH, HEIGHT, SQUARELENGTH
 from checkers.board import Board
 from checkers.pieces import Piece
 from checkers.game import Game
-
-FPS = 60        #frames per second
-
-window = pygame.display.set_mode(size=(WIDTH, HEIGHT))
-pygame.display.set_caption("Checkers game")
-
-# pygame.display.flip()
-
-clock = pygame.time.Clock()
-# board = Board()
-game = Game(window)
-
-running = True
 
 def getRowColFromMousePosition(mousePostion):
     col = mousePostion[0] // SQUARELENGTH
     row = mousePostion[1] // SQUARELENGTH
     return row, col
 
-
-sellectedPiece = 0
-while running:
-    clock.tick(FPS)
-    game.board.drawBoard(window)
-
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            running = False
+def startGame():
+    # window = pygame.display.set_mode(size=(WIDTH, HEIGHT))
+    # pygame.display.set_caption("Checkers game")
+    clock = pygame.time.Clock()
+    game = Game(window)
+    running = True
+    while running:
+        clock.tick(FPS)
+        game.board.drawBoard(window, game.selected, game.validMoves)
         
-        if event.type == pygame.MOUSEBUTTONDOWN:
-            mousePosition = pygame.mouse.get_pos()
-            selectedRow, selectedCol = getRowColFromMousePosition(mousePosition)
-            game.select(selectedRow, selectedCol)
 
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                running = False
+            
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                mousePosition = pygame.mouse.get_pos()
+                selectedRow, selectedCol = getRowColFromMousePosition(mousePosition)
+                game.select(selectedRow, selectedCol)
+                if game.winner != None:
+                    running = False
+                    print('bye')
+        
+        pygame.display.update()
+
+pygame.init()
+
+FPS = 60        #frames per second
+
+window = pygame.display.set_mode(size=(WIDTH, HEIGHT))
+pygame.display.set_caption("Checkers game")
+
+def get_font(size): # Returns Press-Start-2P in the desired size
+    return pygame.font.Font("assets/font.ttf", size)
+
+def options():
+    while True:
+        OPTIONSMOUSEPOS = pygame.mouse.get_pos()
+
+        window.fill("white")
+
+        OPTIONSTEXT = get_font(45).render("This is the OPTIONS screen.", True, "Black")
+        OPTIONS_RECT = OPTIONSTEXT.get_rect(center=(WIDTH//2, 260))
+        window.blit(OPTIONSTEXT, OPTIONS_RECT)
+
+        OPTIONS_BACK = Button(image=None, pos=(WIDTH//2, 460), 
+                            textInput="BACK", font=get_font(75), baseColor="Black", hoveringColor="Green")
+
+        OPTIONS_BACK.changeColor(OPTIONSMOUSEPOS)
+        OPTIONS_BACK.update(window)
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT: 
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if OPTIONS_BACK.checkForInput(OPTIONSMOUSEPOS):
+                    mainMenu()
 
         pygame.display.update()
 
-# TODO 1: endgame?
+def mainMenu():
+    while True:
+        window.fill("black")
+
+        MENU_MOUSE_POS = pygame.mouse.get_pos()
+
+        MENUTEXT = get_font(50).render("MAIN MENU", True, "#b68f40")
+        MENURECT = MENUTEXT.get_rect(center=(WIDTH//2, 100))
+
+        RULEBUTTON = Button(image=pygame.image.load("assets/buttonrect.png"), pos=(WIDTH//2, 250), 
+                            textInput="RULE", font=get_font(30), baseColor="#d7fcd4", hoveringColor="White")
+        PLAYBUTTON = Button(image=pygame.image.load("assets/buttonrect.png"), pos=(WIDTH//2, 400), 
+                            textInput="PLAY", font=get_font(30), baseColor="#d7fcd4", hoveringColor="White")
+        OPTIONSBUTTON = Button(image=pygame.image.load("assets/buttonrect.png"), pos=(WIDTH//2, 550), 
+                            textInput="OPTIONS", font=get_font(30), baseColor="#d7fcd4", hoveringColor="White")
+        QUITBUTTON = Button(image=pygame.image.load("assets/buttonrect.png"), pos=(WIDTH//2, 700), 
+                            textInput="QUIT", font=get_font(30), baseColor="#d7fcd4", hoveringColor="White")
+
+        window.blit(MENUTEXT, MENURECT)
+
+        for button in [RULEBUTTON, PLAYBUTTON, OPTIONSBUTTON, QUITBUTTON]:
+            button.changeColor(MENU_MOUSE_POS)
+            button.update(window)
+        
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                pygame.quit()
+                sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if RULEBUTTON.checkForInput(MENU_MOUSE_POS):
+                    options()
+                if PLAYBUTTON.checkForInput(MENU_MOUSE_POS):
+                    startGame()
+                if OPTIONSBUTTON.checkForInput(MENU_MOUSE_POS):
+                    options()
+                if QUITBUTTON.checkForInput(MENU_MOUSE_POS):
+                    pygame.quit()
+                    sys.exit()
+
+        pygame.display.update()
+
+mainMenu()
+
+
+
+#  1: endgame?
 #  2: Kings?
 #  3: jumps >=2
 #  4: if able to jump => compulsory

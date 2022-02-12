@@ -7,8 +7,8 @@ from checkers.pieces import Piece
 class Board:
     def __init__(self):
         self.board = []
-        self.nWhitePieces = 2
-        self.nBlackPieces = 2
+        self.nWhitePieces = 0
+        self.nBlackPieces = 0
         self.nWhiteKings = 0
         self.nBlackKings = 0
         self.intitializeBoard()    
@@ -30,8 +30,10 @@ class Board:
             for col in range(NCOLS):
                 if row < 3 and (row+col) % 2 != 0:
                     self.board[row].append(Piece(row, col, WHITE))
+                    self.nWhitePieces += 1
                 elif row >= NROWS-3  and (row+col) % 2 != 0:
                     self.board[row].append(Piece(row, col, BLACK))
+                    self.nBlackPieces += 1
                 else:
                     self.board[row].append(0)
 

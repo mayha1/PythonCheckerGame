@@ -1,5 +1,3 @@
-# from ast import While
-# from tabnanny import check
 import pygame
 from pyparsing import White
 from checkers.constants import BLACK, NCOLS, NROWS, WHITE, SQUARELENGTH
@@ -26,8 +24,6 @@ class Game:
         self.selected = None
         self.validMoves = set([])
         self.jumping = False
-        
-
 
     def checkWinner(self):
         if self.validPieces == set() and not self.jumping:
@@ -35,7 +31,6 @@ class Game:
                 self.winner = BLACK
             if self.turn == BLACK:
                 self.winner = WHITE
-
 
     def getValidPieces(self):
         jumpPieces = set([])
@@ -59,7 +54,6 @@ class Game:
         return validPieces
 
     def select(self, row, col):
-        # self.checkWinner()
         if self.selected:
             result = self._move(row, col)
             if result:
@@ -79,8 +73,7 @@ class Game:
                 if not self.jumping:
                     self.selected = None
                     self.checkWinner()                 
-                    self.select(row, col)
-                    
+                    self.select(row, col)      
         else:
             self.validPieces = self.getValidPieces()
             if self.jumping:

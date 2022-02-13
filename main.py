@@ -1,14 +1,14 @@
 import pygame
 import sys
 from button import Button
-from checkers.constants import WHITE, BLACK,  WIDTH, HEIGHT, SQUARELENGTH, BUTTONRECT, NCOLS, NROWS, BOARDDARKCOLOR, BOARDLIGHTCOLOR
+from checkers.constants import WHITE, BLACK,  WIDTH, HEIGHT, SQUARELENGTH, BUTTONRECT, BOARDLIGHTCOLOR, BOARDDARKCOLOR, RULES
 from checkers.board import Board
 from checkers.pieces import Piece
 from checkers.game import Game
 
 pygame.init()
 
-FPS = 60        #frames per second
+FPS = 60     
 
 window = pygame.display.set_mode(size=(WIDTH, HEIGHT))
 pygame.display.set_caption("Checkers game")
@@ -44,31 +44,30 @@ def startGame():
 
     showWinner(game)
         
-def get_font(size): 
+def getFont(size): 
     return pygame.font.Font("assets/font.ttf", size)
 
 def rule():
     while True:
         OPTIONSMOUSEPOS = pygame.mouse.get_pos()
 
-        window.fill("white")
+        window.fill("black")
+        RULESRECT = RULES.get_rect(center=(WIDTH//2, HEIGHT//2))
+        window.blit(RULES, RULESRECT)
+        
 
-        OPTIONSTEXT = get_font(30).render("This is the OPTIONS screen.", True, "Black")
-        OPTIONSRECT = OPTIONSTEXT.get_rect(center=(WIDTH//2, 260))
-        window.blit(OPTIONSTEXT, OPTIONSRECT)
+        BACKBUTTON = Button(image=None, pos=(WIDTH//2, 750), 
+                            textInput="BACK", font=getFont(20), baseColor="white", hoveringColor="darkorange2")
 
-        BUTTTONBACK = Button(image=None, pos=(WIDTH//2, 460), 
-                            textInput="BACK", font=get_font(30), baseColor="Black", hoveringColor="Green")
-
-        BUTTTONBACK.changeColor(OPTIONSMOUSEPOS)
-        BUTTTONBACK.update(window)
+        BACKBUTTON.changeColor(OPTIONSMOUSEPOS)
+        BACKBUTTON.update(window)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT: 
                 pygame.quit()
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
-                if BUTTTONBACK.checkForInput(OPTIONSMOUSEPOS):
+                if BACKBUTTON.checkForInput(OPTIONSMOUSEPOS):
                     mainMenu()
 
         pygame.display.update()
@@ -80,11 +79,11 @@ def colorOptions():
         window.fill("black")
 
         GREENBUTTON = Button(image=None, pos=(WIDTH//2, 200), 
-                            textInput="Dark Green and Light Green", font=get_font(20), baseColor="white", hoveringColor="green")
+                            textInput="Dark Green and Light Green", font=getFont(20), baseColor="white", hoveringColor="green")
         BROWNBUTTON = Button(image=None, pos=(WIDTH//2, 400), 
-                            textInput="Dark Brown and Light Brown", font=get_font(20), baseColor="white", hoveringColor="brown")
+                            textInput="Dark Brown and Light Brown", font=getFont(20), baseColor="white", hoveringColor="brown")
         BLUEBUTTON = Button(image=None, pos=(WIDTH//2, 600), 
-                            textInput="Dark Blue and Light Blue", font=get_font(20), baseColor="white", hoveringColor="blue")
+                            textInput="Dark Blue and Light Blue", font=getFont(20), baseColor="white", hoveringColor="blue")
 
         GREENBUTTON.changeColor(OPTIONSMOUSEPOS)
         GREENBUTTON.update(window)
@@ -115,55 +114,29 @@ def colorOptions():
                     mainMenu()
         pygame.display.update()
 
-def options():
-    while True:
-        OPTIONSMOUSEPOS = pygame.mouse.get_pos()
-
-        window.fill("black")
-
-        OPTIONSTEXT = get_font(20).render("This is the OPTIONS screen.", True, "white")
-        OPTIONSRECT = OPTIONSTEXT.get_rect(center=(WIDTH//2, 260))
-        window.blit(OPTIONSTEXT, OPTIONSRECT)
-
-        BACKBUTTON = Button(image=None, pos=(WIDTH//2, 460), 
-                            textInput="BACK", font=get_font(30), baseColor="white", hoveringColor="darkorange2")
-
-        BACKBUTTON.changeColor(OPTIONSMOUSEPOS)
-        BACKBUTTON.update(window)
-
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT: 
-                pygame.quit()
-                sys.exit()
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                if BACKBUTTON.checkForInput(OPTIONSMOUSEPOS):
-                    mainMenu()
-
-        pygame.display.update()
-
 def showWinner(game):
     while True:
             OPTIONSMOUSEPOS = pygame.mouse.get_pos()
 
             window.fill("black")
 
-            TEXT1 = get_font(20).render(f'Congratulation!', True, "white")
+            TEXT1 = getFont(20).render(f'Congratulation!', True, "white")
             if game.winner == WHITE:
                 winner = "white"
             elif game.winner == BLACK:
                 winner = "black"
             else:
                 winner = "nobody"
-            TEXT2 = get_font(20).render(f'The winner is {winner}.', True, "white")
+            TEXT2 = getFont(20).render(f'The winner is {winner}.', True, "white")
             RECT1 = TEXT1.get_rect(center=(WIDTH//2, 250))
             RECT2 = TEXT2.get_rect(center=(WIDTH//2, 400))
             window.blit(TEXT1, RECT1)
             window.blit(TEXT2, RECT2)
 
             PLAYAGAINBUTTON = Button(image=None, pos=(WIDTH//2, 550), 
-                                textInput="PLAY AGAIN", font=get_font(30), baseColor="white", hoveringColor="darkorange2")
+                                textInput="PLAY AGAIN", font=getFont(30), baseColor="white", hoveringColor="darkorange2")
             MENUBUTTON = Button(image=None, pos=(WIDTH//2, 700), 
-                                textInput="MENU", font=get_font(30), baseColor="white", hoveringColor="darkorange2")
+                                textInput="MENU", font=getFont(30), baseColor="white", hoveringColor="darkorange2")
 
             PLAYAGAINBUTTON.changeColor(OPTIONSMOUSEPOS)
             PLAYAGAINBUTTON.update(window)
@@ -177,11 +150,8 @@ def showWinner(game):
                 if event.type == pygame.MOUSEBUTTONDOWN:
                     if PLAYAGAINBUTTON.checkForInput(OPTIONSMOUSEPOS):
                         startGame()
-                if event.type == pygame.MOUSEBUTTONDOWN:
                     if MENUBUTTON.checkForInput(OPTIONSMOUSEPOS):
                         mainMenu()
-                
-
             pygame.display.update()
 
 def mainMenu():
@@ -190,25 +160,22 @@ def mainMenu():
 
     while True:
         window.fill("black")
-
         MENUMOUSEPOS = pygame.mouse.get_pos()
 
-        MENUTEXT = get_font(50).render("MAIN MENU", True, "darkorange2")
-        MENURECT = MENUTEXT.get_rect(center=(WIDTH//2, 100))
-        RULEBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, 250), 
-                            textInput="RULE", font=get_font(30), baseColor="darkorange2", hoveringColor="White")
-        PLAYBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, 350), 
-                            textInput="PLAY", font=get_font(30), baseColor="darkorange2", hoveringColor="White")
-        SIZEOPTIONBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, 450), 
-                            textInput="SIZE OPTION", font=get_font(30), baseColor="darkorange2", hoveringColor="White")
-        COLOROPTIONBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, 550), 
-                            textInput="COLOR OPTION", font=get_font(30), baseColor="darkorange2", hoveringColor="White")
-        QUITBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, 650), 
-                            textInput="QUIT", font=get_font(30), baseColor="darkorange2", hoveringColor="White")
+        MENUTEXT = getFont(50).render("MAIN MENU", True, "darkorange2")
+        MENURECT = MENUTEXT.get_rect(center=(WIDTH//2, HEIGHT//8))
+        RULEBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//16*5), 
+                            textInput="RULE", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
+        PLAYBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, 400), 
+                            textInput="PLAY", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
+        COLOROPTIONBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//16*11), 
+                            textInput="COLOR OPTIONS", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
+        QUITBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//16*14), 
+                            textInput="QUIT", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
 
         window.blit(MENUTEXT, MENURECT)
 
-        for button in [RULEBUTTON, PLAYBUTTON, SIZEOPTIONBUTTON, COLOROPTIONBUTTON, QUITBUTTON]:
+        for button in [RULEBUTTON, PLAYBUTTON, COLOROPTIONBUTTON, QUITBUTTON]:
             button.changeColor(MENUMOUSEPOS)
             button.update(window)
         
@@ -218,17 +185,14 @@ def mainMenu():
                 sys.exit()
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if RULEBUTTON.checkForInput(MENUMOUSEPOS):
-                    options()
+                    rule()
                 if PLAYBUTTON.checkForInput(MENUMOUSEPOS):
                     startGame()
-                if SIZEOPTIONBUTTON.checkForInput(MENUMOUSEPOS):
-                    options()
                 if COLOROPTIONBUTTON.checkForInput(MENUMOUSEPOS):
                     colorOptions()
                 if QUITBUTTON.checkForInput(MENUMOUSEPOS):
                     pygame.quit()
                     sys.exit()
-
         pygame.display.update()
 
 mainMenu()

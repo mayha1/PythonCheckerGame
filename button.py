@@ -17,13 +17,13 @@ class Button():
 			screen.blit(self.image, self.rect)
 		screen.blit(self.text, self.textRect)
 
-	def checkForInput(self, position):
-		if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
+	def checkForInput(self, pos):
+		if pos[0] in range(self.rect.left, self.rect.right) and pos[1] in range(self.rect.top, self.rect.bottom):
 			return True
 		return False
 
-	def changeColor(self, position):
-		if position[0] in range(self.rect.left, self.rect.right) and position[1] in range(self.rect.top, self.rect.bottom):
+	def changeColor(self, pos):
+		if pos[0] in range(self.rect.left, self.rect.right) and pos[1] in range(self.rect.top, self.rect.bottom):
 			self.text = self.font.render(self.textInput, True, self.hoveringColor)
 		else:
 			self.text = self.font.render(self.textInput, True, self.baseColor)

@@ -10,7 +10,7 @@ class Piece:
         self.king = False
         if self.color == WHITE:
             self.direction = [(1,-1), (1,1)]
-        else: # self.color == BLACK                   
+        else:                  
             self.direction = [(-1,-1), (-1,1)]
 
     def getPosition(self):

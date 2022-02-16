@@ -1,6 +1,5 @@
 import pygame
-from pyparsing import White
-from checkers.constants import BLACK, NCOLS, NROWS, WHITE, SQUARELENGTH
+from checkers.constants import BLACK, NCOLS, NROWS, WHITE
 from checkers.board import Board
 from checkers.pieces import Piece
 

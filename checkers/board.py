@@ -39,10 +39,6 @@ class Board:
                 else:
                     self.board[row].append(0)
 
-    # def drawValidPieces(self, validPieces, window):
-        # for piece in validPieces:
-            # piece.drawMovability(window)
-
     def drawBoard(self, window, selected, validPieces):
         self.drawSquare(window) 
         for row in range(NROWS):

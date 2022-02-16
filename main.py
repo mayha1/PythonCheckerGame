@@ -194,14 +194,3 @@ def mainMenu():
         pygame.display.update()
 
 mainMenu()
-
-
-
-#  1: endgame?
-#  2: Kings?
-#  3: jumps >=2
-#  4: if able to jump => compulsory
-#  5: visualize valid moves
-# TODO 6: start: choose color, size, first turn
-# TODO 7: replay and ratio 
-# TODO 8: visualize valid piece

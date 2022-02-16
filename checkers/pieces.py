@@ -30,13 +30,6 @@ class Piece:
         else:
             pygame.draw.circle(window, self.color, (self.xCenter, self.yCenter), pieceRadius)
 
-    def drawMovability(self, window):
-        self.getPosition()
-        pieceRadius = SQUARELENGTH//3
-        if self.king:
-            pygame.draw.circle(window, SUGGESTMOVECOLOR, (self.xCenter, self.yCenter), pieceRadius, pieceRadius//6)
-
-
     def drawValidMoves(self, window, validMoves):
         validMoveRadius = SQUARELENGTH // 5
         for move in validMoves:

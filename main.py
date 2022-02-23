@@ -55,7 +55,6 @@ def rule():
         
         BACKBUTTON = Button(image=None, pos=(WIDTH//2, 750), 
                             textInput="BACK", font=getFont(20), baseColor="white", hoveringColor="darkorange2")
-
         BACKBUTTON.changeColor(OPTIONSMOUSEPOS)
         BACKBUTTON.update(window)
 
@@ -112,7 +111,6 @@ def colorOptions():
 def showWinner(game):
     while True:
         OPTIONSMOUSEPOS = pygame.mouse.get_pos()
-
         window.fill("black")
 
         TEXT1 = getFont(20).render(f'Congratulation!', True, "white")

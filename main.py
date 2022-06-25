@@ -1,7 +1,7 @@
 import pygame
 import sys
 from button import Button
-from checkers.constants import WHITE, BLACK,  WIDTH, HEIGHT, SQUARELENGTH, BUTTONRECT, BOARDLIGHTCOLOR, BOARDDARKCOLOR, RULES
+from checkers.constants import BIGFONTSIZE, SMALLFONTSIZE, WHITE, BLACK,  WIDTH, HEIGHT, SQUARELENGTH, BUTTONRECT, BOARDLIGHTCOLOR, BOARDDARKCOLOR, RULES
 from checkers.game import Game
 
 pygame.init()
@@ -54,7 +54,7 @@ def rule():
         window.blit(RULES, RULESRECT)
         
         BACKBUTTON = Button(image=None, pos=(WIDTH//2, HEIGHT//8*7.5), 
-                            textInput="BACK", font=getFont(20), baseColor="white", hoveringColor="darkorange2")
+                            textInput="BACK", font=getFont(SMALLFONTSIZE), baseColor="white", hoveringColor="darkorange2")
         BACKBUTTON.changeColor(OPTIONSMOUSEPOS)
         BACKBUTTON.update(window)
 
@@ -75,11 +75,11 @@ def colorOptions():
         window.fill("black")
 
         GREENBUTTON = Button(image=None, pos=(WIDTH//2, HEIGHT//4), 
-                            textInput="Dark Green and Light Green", font=getFont(20), baseColor="white", hoveringColor="green")
+                            textInput="Dark Green and Light Green", font=getFont(SMALLFONTSIZE), baseColor="white", hoveringColor="green")
         BROWNBUTTON = Button(image=None, pos=(WIDTH//2, HEIGHT//2), 
-                            textInput="Dark Brown and Light Brown", font=getFont(20), baseColor="white", hoveringColor="brown")
+                            textInput="Dark Brown and Light Brown", font=getFont(SMALLFONTSIZE), baseColor="white", hoveringColor="brown")
         BLUEBUTTON = Button(image=None, pos=(WIDTH//2, HEIGHT//4*3), 
-                            textInput="Dark Blue and Light Blue", font=getFont(20), baseColor="white", hoveringColor="blue")
+                            textInput="Dark Blue and Light Blue", font=getFont(SMALLFONTSIZE), baseColor="white", hoveringColor="blue")
         
         for button in [GREENBUTTON, BROWNBUTTON, BLUEBUTTON]:
             button.changeColor(OPTIONSMOUSEPOS)
@@ -113,7 +113,7 @@ def showWinner(game):
         OPTIONSMOUSEPOS = pygame.mouse.get_pos()
         window.fill("black")
 
-        TEXT1 = getFont(20).render(f'Congratulation!', True, "white")
+        TEXT1 = getFont(SMALLFONTSIZE).render(f'Congratulation!', True, "white")
         RECT1 = TEXT1.get_rect(center=(WIDTH//2, 250))
 
         if game.winner == WHITE:
@@ -123,15 +123,15 @@ def showWinner(game):
         else:
             winner = "nobody"
             
-        TEXT2 = getFont(20).render(f'The winner is {winner}.', True, "white")
+        TEXT2 = getFont(SMALLFONTSIZE).render(f'The winner is {winner}.', True, "white")
         RECT2 = TEXT2.get_rect(center=(WIDTH//2, HEIGHT//4))
         window.blit(TEXT1, RECT1)
         window.blit(TEXT2, RECT2)
 
         PLAYAGAINBUTTON = Button(image=None, pos=(WIDTH//2, HEIGHT//8*5.5), 
-                            textInput="PLAY AGAIN", font=getFont(30), baseColor="white", hoveringColor="darkorange2")
+                            textInput="PLAY AGAIN", font=getFont(BIGFONTSIZE), baseColor="white", hoveringColor="darkorange2")
         MENUBUTTON = Button(image=None, pos=(WIDTH//2, HEIGHT//8*7), 
-                            textInput="MENU", font=getFont(30), baseColor="white", hoveringColor="darkorange2")
+                            textInput="MENU", font=getFont(BIGFONTSIZE), baseColor="white", hoveringColor="darkorange2")
 
         PLAYAGAINBUTTON.changeColor(OPTIONSMOUSEPOS)
         PLAYAGAINBUTTON.update(window)
@@ -160,13 +160,13 @@ def mainMenu():
         MENUTEXT = getFont(50).render("MAIN MENU", True, "darkorange2")
         MENURECT = MENUTEXT.get_rect(center=(WIDTH//2, HEIGHT//8))
         RULEBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//16*5), 
-                            textInput="RULE", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
+                            textInput="RULE", font=getFont(BIGFONTSIZE), baseColor="darkorange2", hoveringColor="White")
         PLAYBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//2), 
-                            textInput="PLAY", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
+                            textInput="PLAY", font=getFont(BIGFONTSIZE), baseColor="darkorange2", hoveringColor="White")
         COLOROPTIONBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//16*11), 
-                            textInput="COLOR OPTIONS", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
+                            textInput="COLOR OPTIONS", font=getFont(BIGFONTSIZE), baseColor="darkorange2", hoveringColor="White")
         QUITBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//16*14), 
-                            textInput="QUIT", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
+                            textInput="QUIT", font=getFont(BIGFONTSIZE), baseColor="darkorange2", hoveringColor="White")
 
         window.blit(MENUTEXT, MENURECT)
 

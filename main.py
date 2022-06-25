@@ -161,7 +161,7 @@ def mainMenu():
         MENURECT = MENUTEXT.get_rect(center=(WIDTH//2, HEIGHT//8))
         RULEBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//16*5), 
                             textInput="RULE", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
-        PLAYBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, 400), 
+        PLAYBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//2), 
                             textInput="PLAY", font=getFont(30), baseColor="darkorange2", hoveringColor="White")
         COLOROPTIONBUTTON = Button(image=BUTTONRECT, pos=(WIDTH//2, HEIGHT//16*11), 
                             textInput="COLOR OPTIONS", font=getFont(30), baseColor="darkorange2", hoveringColor="White")

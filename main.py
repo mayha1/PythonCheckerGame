@@ -53,7 +53,7 @@ def rule():
         RULESRECT = RULES.get_rect(center=(WIDTH//2, HEIGHT//2))
         window.blit(RULES, RULESRECT)
         
-        BACKBUTTON = Button(image=None, pos=(WIDTH//2, 750), 
+        BACKBUTTON = Button(image=None, pos=(WIDTH//2, HEIGHT//8*7.5), 
                             textInput="BACK", font=getFont(20), baseColor="white", hoveringColor="darkorange2")
         BACKBUTTON.changeColor(OPTIONSMOUSEPOS)
         BACKBUTTON.update(window)

@@ -124,13 +124,13 @@ def showWinner(game):
             winner = "nobody"
             
         TEXT2 = getFont(20).render(f'The winner is {winner}.', True, "white")
-        RECT2 = TEXT2.get_rect(center=(WIDTH//2, 400))
+        RECT2 = TEXT2.get_rect(center=(WIDTH//2, HEIGHT//4))
         window.blit(TEXT1, RECT1)
         window.blit(TEXT2, RECT2)
 
-        PLAYAGAINBUTTON = Button(image=None, pos=(WIDTH//2, 550), 
+        PLAYAGAINBUTTON = Button(image=None, pos=(WIDTH//2, HEIGHT//8*5.5), 
                             textInput="PLAY AGAIN", font=getFont(30), baseColor="white", hoveringColor="darkorange2")
-        MENUBUTTON = Button(image=None, pos=(WIDTH//2, 700), 
+        MENUBUTTON = Button(image=None, pos=(WIDTH//2, HEIGHT//8*7), 
                             textInput="MENU", font=getFont(30), baseColor="white", hoveringColor="darkorange2")
 
         PLAYAGAINBUTTON.changeColor(OPTIONSMOUSEPOS)

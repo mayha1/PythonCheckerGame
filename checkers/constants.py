@@ -1,5 +1,4 @@
 import pygame
-
 import pyautogui
 
 widthScreen, heightScreen= pyautogui.size()

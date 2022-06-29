@@ -1,4 +1,4 @@
-# Punch
+# Checkers Game
 
 A game made by Dinh Hoang Nhat Minh using Python
 
@@ -10,7 +10,7 @@ git clone https://github.com/mayha1/PythonCheckerGame
 ## Change directory to project's directory
 
 ```
-cd path/to/PythonCheckerGame
+cd PythonCheckerGame
 ```
 
 ## Install package
